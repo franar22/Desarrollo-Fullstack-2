@@ -1,51 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("registerForm");
     const message = document.getElementById("message");
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         limpiarMensaje();
 
-        if (validarFormulario()) {
-            mostrarExito();
-            form.reset();
-        }
-    });
-
-    const validarFormulario = () => {
-        return validarEmail() && validarPassword();
-    };
-
-    const validarEmail = () => {
+        const nombre = document.getElementById("nombre").value.trim();
+        const apellido = document.getElementById("apellido").value.trim();
         const email = document.getElementById("email").value.trim();
-        const dominiosValidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
-
-        if (email === "" || email.length > 100) {
-            mostrarError("El correo es obligatorio y debe tener máximo 100 caracteres");
-            return false;
-        }
-
-        if (!dominiosValidos.some(dominio => email.endsWith(dominio))) {
-            mostrarError("El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com");
-            return false;
-        }
-
-        return true;
-    };
-
-    const validarPassword = () => {
         const password = document.getElementById("password").value.trim();
 
-        if (password === "" || password.length < 4 || password.length > 10) {
-            mostrarError("La contraseña debe tener entre 4 y 10 caracteres");
-            return false;
+        if (!nombre || !apellido || !email || !password) {
+            mostrarError("Todos los campos son obligatorios");
+            return;
         }
 
-        return true;
-    };
+        if (password.length < 4 || password.length > 10) {
+            mostrarError("La contraseña debe tener entre 4 y 10 caracteres");
+            return;
+        }
 
-    const mostrarExito = () => {
-        message.textContent = "Inicio de sesión exitoso";
+        
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+        
+        if (usuarios.some(usuario => usuario.email === email)) {
+            mostrarError("Este correo ya está registrado");
+            return;
+        }
+
+        
+        usuarios.push({ nombre, apellido, email, password });
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+        mostrarExito("Registro exitoso. Ahora puedes iniciar sesión.");
+        form.reset();
+    });
+
+    const mostrarExito = (texto) => {
+        message.textContent = texto;
         message.className = "message success";
         message.style.display = "block";
     };
