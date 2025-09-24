@@ -14,14 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        
-        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        // Admin hardcode
+        if (email.toLowerCase() === 'admin@duocuc.cl' && password === 'admin') {
+            const session = { email, nombre: 'Admin', apellido: '', role: 'Administrador' };
+            localStorage.setItem('session', JSON.stringify(session));
+            mostrarExito('Bienvenido, Administrador');
+            setTimeout(() => { window.location.href = 'admin.html'; }, 600);
+            form.reset();
+            return;
+        }
 
-        
+        // Usuarios registrados (cliente por defecto)
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
         const usuario = usuarios.find(u => u.email === email && u.password === password);
 
         if (usuario) {
+            const session = { email: usuario.email, nombre: usuario.nombre, apellido: usuario.apellido, role: 'Cliente' };
+            localStorage.setItem('session', JSON.stringify(session));
             mostrarExito(`Bienvenido, ${usuario.nombre} ${usuario.apellido}`);
+            setTimeout(() => { window.location.href = 'index.html'; }, 600);
             form.reset();
         } else {
             mostrarError("Correo o contraseña incorrectos");

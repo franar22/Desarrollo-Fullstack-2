@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Administrador - Tienda</title>
+	<link rel="stylesheet" href="style.css">
+	<style>
+		body { margin:0; font-family: Arial, Helvetica, sans-serif; }
+		.admin-layout { display:flex; min-height:100vh; }
+		.admin-sidebar { width:260px; background:#0f172a; color:#fff; padding:20px; }
+		.admin-sidebar h2 { margin:0 0 20px 0; font-size:20px; }
+		.admin-menu { list-style:none; padding:0; margin:0; }
+		.admin-menu li { margin-bottom:10px; }
+		.admin-menu a { display:block; color:#e2e8f0; text-decoration:none; padding:10px 12px; border-radius:6px; }
+		.admin-menu a.active, .admin-menu a:hover { background:#1e293b; color:#fff; }
+		.admin-content { flex:1; background:#f8fafc; padding:24px; }
+		.admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+		.btn { background:#2563eb; color:#fff; border:none; padding:10px 14px; border-radius:6px; cursor:pointer; }
+		.btn.secondary { background:#334155; }
+		.card { background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:16px; }
+		.table { width:100%; border-collapse:collapse; }
+		.table th, .table td { border-bottom:1px solid #e2e8f0; padding:10px; text-align:left; }
+		.grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+		.input, select, textarea { width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; }
+		.actions { display:flex; gap:8px; }
+		.hidden { display:none; }
+	</style>
+</head>
+<body>
+	<div class="admin-layout">
+		<aside class="admin-sidebar">
+			<h2>Panel Admin</h2>
+			<ul class="admin-menu">
+				<li><a href="#" data-view="dashboard" class="active">Inicio</a></li>
+				<li><a href="#" data-view="products">Productos</a></li>
+				<li><a href="#" data-view="users">Usuarios</a></li>
+				<li><a href="#" id="logoutLink">Cerrar sesión</a></li>
+			</ul>
+		</aside>
+		<main class="admin-content">
+			<div class="admin-header">
+				<h1 id="viewTitle">Inicio</h1>
+				<div id="headerActions"></div>
+			</div>
+			<section id="view-dashboard" class="card">
+				<p>Bienvenido al panel de administración. Usa el menú para gestionar productos y usuarios.</p>
+			</section>
+			<section id="view-products" class="hidden">
+				<div class="card">
+					<div class="actions" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
+						<input id="productSearch" class="input" placeholder="Buscar producto por nombre o código" style="max-width:360px;">
+						<button class="btn" id="btnNewProduct">Nuevo Producto</button>
+					</div>
+					<table class="table" id="productsTable">
+						<thead>
+							<tr>
+								<th>Código</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Categoría</th><th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div class="card" id="productFormCard" style="margin-top:12px;" class="hidden">
+					<h3 id="productFormTitle">Nuevo Producto</h3>
+					<form id="productForm" novalidate>
+						<div class="grid">
+							<div>
+								<label>Código</label>
+								<input id="p_codigo" class="input" required minlength="3" />
+							</div>
+							<div>
+								<label>Nombre</label>
+								<input id="p_nombre" class="input" required maxlength="100" />
+							</div>
+							<div>
+								<label>Descripción</label>
+								<textarea id="p_descripcion" class="input" maxlength="500"></textarea>
+							</div>
+							<div>
+								<label>Precio</label>
+								<input id="p_precio" type="number" step="0.01" min="0" class="input" required />
+							</div>
+							<div>
+								<label>Stock</label>
+								<input id="p_stock" type="number" step="1" min="0" class="input" required />
+							</div>
+							<div>
+								<label>Stock Crítico</label>
+								<input id="p_stockCritico" type="number" step="1" min="0" class="input" />
+							</div>
+							<div>
+								<label>Categoría</label>
+								<select id="p_categoria" required></select>
+							</div>
+							<div>
+								<label>Imagen (URL)</label>
+								<input id="p_imagen" class="input" />
+							</div>
+						</div>
+						<div class="actions" style="margin-top:12px;">
+							<button class="btn" type="submit">Guardar</button>
+							<button class="btn secondary" type="button" id="cancelProductForm">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</section>
+			<section id="view-users" class="hidden">
+				<div class="card">
+					<div class="actions" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
+						<input id="userSearch" class="input" placeholder="Buscar usuario por RUN, nombre o correo" style="max-width:360px;">
+						<button class="btn" id="btnNewUser">Nuevo Usuario</button>
+					</div>
+					<table class="table" id="usersTable">
+						<thead>
+							<tr>
+								<th>RUN</th><th>Nombre</th><th>Apellidos</th><th>Correo</th><th>Tipo</th><th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div class="card" id="userFormCard" style="margin-top:12px;" class="hidden">
+					<h3 id="userFormTitle">Nuevo Usuario</h3>
+					<form id="userForm" novalidate>
+						<div class="grid">
+							<div>
+								<label>RUN</label>
+								<input id="u_run" class="input" required minlength="7" maxlength="9" />
+							</div>
+							<div>
+								<label>Nombre</label>
+								<input id="u_nombre" class="input" required maxlength="50" />
+							</div>
+							<div>
+								<label>Apellidos</label>
+								<input id="u_apellidos" class="input" required maxlength="100" />
+							</div>
+							<div>
+								<label>Correo</label>
+								<input id="u_correo" class="input" required maxlength="100" />
+							</div>
+							<div>
+								<label>Fecha Nacimiento</label>
+								<input id="u_fecha" type="date" class="input" />
+							</div>
+							<div>
+								<label>Tipo de Usuario</label>
+								<select id="u_tipo" required>
+									<option value="Administrador">Administrador</option>
+									<option value="Vendedor">Vendedor</option>
+									<option value="Cliente">Cliente</option>
+								</select>
+							</div>
+							<div>
+								<label>Región</label>
+								<select id="u_region"></select>
+							</div>
+							<div>
+								<label>Comuna</label>
+								<select id="u_comuna"></select>
+							</div>
+							<div style="grid-column: 1 / -1;">
+								<label>Dirección</label>
+								<input id="u_direccion" class="input" required maxlength="300" />
+							</div>
+						</div>
+						<div class="actions" style="margin-top:12px;">
+							<button class="btn" type="submit">Guardar</button>
+							<button class="btn secondary" type="button" id="cancelUserForm">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</section>
+		</main>
+	</div>
+	<script src="js/data.js"></script>
+	<script src="js/admin.js"></script>
+</body>
+</html>
+

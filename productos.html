@@ -19,6 +19,7 @@
       <a href="contacto.html">Contacto</a>
       <a href="registro.html">Registrarse</a>
       <a href="login.html">Iniciar Sesión</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
     </nav>
     <div class="carrito">
       <span id="cart-count">Carrito (0)</span>
@@ -32,6 +33,15 @@
     </section>
   </main>
 
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('session'));
+        var link = document.getElementById('adminLink');
+        if (s && s.role === 'Administrador' && link) { link.style.display = 'inline-block'; }
+      } catch(e) {}
+    })();
+  </script>
   <script src="js/productos.js"></script>
 </body>
 </html>

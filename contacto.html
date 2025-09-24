@@ -24,6 +24,7 @@
         <a href="contacto.html" class="nav-link">Contactos</a>
         <a href="registro.html" class="nav-link">Registrarse</a>
         <a href="" class="nav-link">Iniciar Sesion</a>
+        <a href="admin.html" class="nav-link" id="adminLink" style="display:none;">Admin</a>
         
       </nav>
 
@@ -56,6 +57,15 @@
     </div>
   </main>
 
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('session'));
+        var link = document.getElementById('adminLink');
+        if (s && s.role === 'Administrador' && link) { link.style.display = 'inline-block'; }
+      } catch(e) {}
+    })();
+  </script>
   <script src="js/contacto.js"></script>
 </body>
 </html>
