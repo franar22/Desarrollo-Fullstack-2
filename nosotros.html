@@ -1,70 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Nosotros</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Sobre Nosotros - NextMove</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header> 
-      <a href="#" class="logo">
-        <img src="img/Next.png" alt="Logo de la tienda">
-        <h2 class="nombre-tienda">NextMove</h2>  
-
+  <header> 
+    <a href="index.html" class="logo">
+      <img src="img/Next.png" alt="Logo de la tienda">
+      <h2 class="nombre-tienda">NextMove</h2>  
     </a>
-      <nav>
+    <nav>
+      <a href="index.html" class="nav-link">Inicio</a>
+      <a href="productos.html" class="nav-link">Productos</a>
+      <a href="nosotros.html" class="nav-link active">Sobre nosotros</a>
+      <a href="blog.html" class="nav-link">Blogs</a>
+      <a href="contacto.html" class="nav-link">Contactos</a>
+      <a href="registro.html" class="nav-link">Registrarse</a>
+      <a href="login.html" class="nav-link">Iniciar Sesión</a>
+    </nav>
+  </header>
 
-        <a href="index.html" class="nav-link">inicio</a>
-        <a href="" class="nav-link">Productos</a>
-        <a href="nosotros.html" class="nav-link">Sobre nosotros</a>
-        <a href="blog.html" class="nav-link">Blogs</a>
-        <a href="" class="nav-link">Contactos</a>
-        <a href="registro.html" class="nav-link">Registrarse</a>
-        <a href="" class="nav-link">Iniciar Sesion</a>
-        
-        
-      </nav>
-
-    </header>
-
-
-    <main>
+  <main>
+    
     <section class="historia">
-        <h1>Nuestra Historia</h1>
-        <p>Nuestra empresa fue fundada en el año 2020, logrando encontrar una gran oportunidad de negocio en la pandemia
-            entendiendo que la manera en la que se empezarian a hacer las cosas desde ese momento en adelante seria mayoritariamente
-            online, Desde momento hasta ahora hemos aprendido, de nuestro errores y hemos modificado lo necesario para satisfacer las
-            necesidades de nuestros clientes. 
-        </p>
+      <h1>Nuestra Historia</h1>
+      <p>
+        NextMove nació en 2020, en medio de la pandemia, con una visión clara: 
+        <strong>conectar el deporte con la innovación digital</strong>.  
+        Lo que comenzó como un pequeño proyecto para vender artículos deportivos en línea 
+        se transformó en una comunidad apasionada por el movimiento y la vida activa.
+      </p>
+      <p>
+        Desde nuestros primeros pasos hemos enfrentado desafíos, aprendido de los errores 
+        y evolucionado constantemente para ofrecer a nuestros clientes productos de 
+        <strong>calidad, accesibles y confiables</strong>.  
+        Hoy somos una tienda deportiva con un propósito: inspirar a más personas a llevar 
+        un estilo de vida saludable.
+      </p>
     </section>
+
     
+    <section class="mision-vision">
+      <div class="card">
+        <i class="fas fa-bullseye fa-3x"></i>
+        <h2>Misión</h2>
+        <p>
+          Brindar productos deportivos accesibles y de alta calidad, potenciando el rendimiento 
+          y bienestar de nuestros clientes a través de la innovación y el servicio cercano.
+        </p>
+      </div>
+      <div class="card">
+        <i class="fas fa-lightbulb fa-3x"></i>
+        <h2>Visión</h2>
+        <p>
+          Ser líderes en el mercado digital deportivo en Chile, reconocidos por nuestro compromiso 
+          con la excelencia, la sostenibilidad y la pasión por el deporte.
+        </p>
+      </div>
+    </section>
+
+
     <section class="equipo">
-        <h2>Nuestro Equipo</h2>
-        <p>Nuestro Equipo de trabajo esta formado por</p>
-        <ol>
-            <li>Francisco Argandoña Hidalgo</li>
-            <li>Mauricio Mateluna zuñiga</li>
-            
-        </ol>
-        <p>Donde compartimos trabajo de manera igualitaria, dedicandonos al front-end, a el manejo
-            de la tienda ya sea, atentiendo,respondiendo mensajes,etc.
-        </p>
+      <h2>Nuestro Equipo</h2>
+      <div class="equipo-grid">
+        <div class="miembro">
+          <h3>Francisco Argandoña</h3>
+          <p>Co-fundador & Front-end Developer</p>
+        </div>
+        <div class="miembro">
+          <h3>Mauricio Mateluna</h3>
+          <p>Co-fundador & Gestión de Operaciones</p>
+        </div>
+      </div>
+      <p>
+        Creemos en el trabajo colaborativo, compartiendo responsabilidades de forma equitativa, 
+        combinando el desarrollo web con la gestión de la tienda y la atención al cliente.
+      </p>
     </section>
-    
+
     <section class="valores">
-        <h2>Nuestros Valores</h2>
-        <p>En nuestra tienda los valores principales son </p>
-        <ul>
-            <li>Compañerismo</li>
-            <li>La correcta atencia a los clientes</li>
-            <li>Prudencia </li>
-        </ul>
+      <h2>Nuestros Valores</h2>
+      <div class="valores-grid">
+        <div class="valor">
+          <i class="fas fa-users fa-2x"></i>
+          <h3>Compañerismo</h3>
+          <p>Creemos en la fuerza del trabajo en equipo y en crecer junto a nuestra comunidad.</p>
+        </div>
+        <div class="valor">
+          <i class="fas fa-handshake fa-2x"></i>
+          <h3>Atención al Cliente</h3>
+          <p>Ofrecemos una experiencia cercana, transparente y dedicada a cada cliente.</p>
+        </div>
+        <div class="valor">
+          <i class="fas fa-scale-balanced fa-2x"></i>
+          <h3>Prudencia</h3>
+          <p>Actuamos con responsabilidad, pensando siempre en el impacto de nuestras decisiones.</p>
+        </div>
+      </div>
     </section>
-    </main>
-
-
-
-    
+  </main>
 </body>
 </html>
