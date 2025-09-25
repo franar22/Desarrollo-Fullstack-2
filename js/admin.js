@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Data sources in localStorage
 	const PRODUCTS_KEY = 'productosData';
-	const USERS_KEY = 'usuariosAdmin';
+    const USERS_KEY = 'usuariosAdmin';
+    const PUBLIC_USERS_KEY = 'usuarios';
 	const CATEGORIES_KEY = 'categoriasData';
 
 	// Seed categories if missing
@@ -207,8 +208,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	const regionSelect = document.getElementById('u_region');
 	const comunaSelect = document.getElementById('u_comuna');
 
-	function getUsers() { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
-	function saveUsers(list) { localStorage.setItem(USERS_KEY, JSON.stringify(list)); }
+    function getUsers() { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
+    function saveUsers(list) { localStorage.setItem(USERS_KEY, JSON.stringify(list)); }
+    function upsertPublicUsers(syncUser){
+        // Mantener una lista pública para login de clientes y personal
+        const pub = JSON.parse(localStorage.getItem(PUBLIC_USERS_KEY)) || [];
+        const idx = pub.findIndex(u => u.email && u.email.toLowerCase() === (syncUser.correo||'').toLowerCase());
+        const record = {
+            nombre: syncUser.nombre,
+            apellido: syncUser.apellidos || '',
+            email: syncUser.correo,
+            password: syncUser.password || '',
+            role: syncUser.tipo || 'Cliente'
+        };
+        if (idx >= 0) pub[idx] = record; else pub.push(record);
+        localStorage.setItem(PUBLIC_USERS_KEY, JSON.stringify(pub));
+    }
 
 	function populateRegiones() {
 		const regiones = window.REGIONES || [];
@@ -268,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			document.getElementById('u_nombre').value = u.nombre;
 			document.getElementById('u_apellidos').value = u.apellidos;
 			document.getElementById('u_correo').value = u.correo;
+            document.getElementById('u_password').value = u.password || '';
 			document.getElementById('u_fecha').value = u.fecha || '';
 			document.getElementById('u_tipo').value = u.tipo;
 			populateRegiones();
@@ -299,11 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		return dv === dvCalculado;
 	}
 
-	function validateUserForm() {
+    function validateUserForm() {
 		const run = document.getElementById('u_run').value.trim();
 		const nombre = document.getElementById('u_nombre').value.trim();
 		const apellidos = document.getElementById('u_apellidos').value.trim();
 		const correo = document.getElementById('u_correo').value.trim();
+        const password = document.getElementById('u_password').value.trim();
 		const fecha = document.getElementById('u_fecha').value;
 		const tipo = document.getElementById('u_tipo').value;
 		const region = regionSelect.value;
@@ -315,9 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (!apellidos || apellidos.length > 100) return { ok:false, msg:'Apellidos requeridos (máx 100).' };
 		if (!correo || correo.length > 100) return { ok:false, msg:'Correo requerido (máx 100).' };
 		if (!/^.+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$/i.test(correo)) return { ok:false, msg:'Dominio de correo no permitido.' };
-		if (!tipo) return { ok:false, msg:'Seleccione tipo de usuario.' };
+        if (!tipo) return { ok:false, msg:'Seleccione tipo de usuario.' };
+        if (password && (password.length < 4 || password.length > 50)) return { ok:false, msg:'Contraseña 4-50 caracteres o déjela vacía.' };
 		if (!direccion || direccion.length > 300) return { ok:false, msg:'Dirección requerida (máx 300).' };
-		return { ok:true, data:{ run, nombre, apellidos, correo, fecha, tipo, region, comuna, direccion } };
+        return { ok:true, data:{ run, nombre, apellidos, correo, password, fecha, tipo, region, comuna, direccion } };
 	}
 
 	userForm.addEventListener('submit', (e) => {
@@ -325,9 +343,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		const v = validateUserForm();
 		if (!v.ok) { alert(v.msg); return; }
 		const list = getUsers();
-		if (editingRun) {
+        if (editingRun) {
 			const idx = list.findIndex(u => u.run === editingRun);
-			if (idx !== -1) list[idx] = v.data;
+            if (idx !== -1) list[idx] = v.data;
 		} else {
 			if (list.some(u => u.run.toLowerCase() === v.data.run.toLowerCase())) {
 				alert('RUN ya existe.');
@@ -336,6 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			list.push(v.data);
 		}
 		saveUsers(list);
+        // sincronizar con la lista pública para login
+        upsertPublicUsers(v.data);
 		userFormCard.classList.add('hidden');
 		renderUsers();
 	});

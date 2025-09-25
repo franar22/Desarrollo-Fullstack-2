@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+	
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Administrador - Tienda</title>
@@ -28,6 +30,20 @@
 	</style>
 </head>
 <body>
+	<header>
+		<a href="#" class="logo">
+		  <img src="img/Next.png" alt="Logo de la tienda">
+		  <h2 class="nombre-tienda">NextMove</h2>
+		</a>
+		<nav>
+		  <a href="index.html" class="nav-link">inicio</a>
+			<a href="" class="nav-link">Productos</a>
+			<a href="nosotros.html" class="nav-link">Sobre nosotros</a>
+			<a href="blog.html" class="nav-link">Blogs</a>
+			<a href="contacto.html" class="nav-link">Contactos</a>
+			<a href="admin.html" class="nav-link" id="adminLink" style="display:none;">Admin</a>
+		</nav>
+	  </header>
 	<div class="admin-layout">
 		<aside class="admin-sidebar">
 			<h2>Panel Admin</h2>
@@ -140,6 +156,10 @@
 								<label>Correo</label>
 								<input id="u_correo" class="input" required maxlength="100" />
 							</div>
+					<div>
+						<label>Contraseña</label>
+						<input id="u_password" type="password" class="input" maxlength="50" />
+					</div>
 							<div>
 								<label>Fecha Nacimiento</label>
 								<input id="u_fecha" type="date" class="input" />
