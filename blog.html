@@ -64,14 +64,6 @@
 
 
     
-  <script>
-    (function(){
-      try {
-        var s = JSON.parse(localStorage.getItem('session'));
-        var link = document.getElementById('adminLink');
-        if (s && s.role === 'Administrador' && link) { link.style.display = 'inline-block'; }
-      } catch(e) {}
-    })();
-  </script>
+  <script src="js/common.js"></script>
 </body>
 </html>
