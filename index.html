@@ -24,6 +24,7 @@
         <a href="contacto.html" class="nav-link">Contactos</a>
         <a href="registro.html" class="nav-link">Registrarse</a>
         <a href="login.html" class="nav-link">Iniciar Sesión</a>
+        <a href="admin.html" class="nav-link" id="adminLink" style="display:none;">Admin</a>
         <a href="carrito.html" class="nav-link carrito"><i class="fa-solid fa-cart-shopping"></i></a>
       </nav>
     </header>
@@ -39,40 +40,60 @@
    
     <section class="productos">
         <h2>Productos Más Vendidos</h2>
-        <div class="productos-grid">
-            <div class="producto-card">
-                <img src="img/zapatos.jpg" alt="Zapatos de fútbol">
-                <h3>Zapatos de Fútbol</h3>
-                <p>Precio: $49.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos </button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/poleron.webp" alt="Poleron Deportivo">
-                <h3>Polero Deportivo</h3>
-                <p>Precio: $19.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/shorts.avif" alt="Shorts Deportivo">
-                <h3>Shorts Deportivo</h3>
-                <p>Precio: $14.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/calcetines.webp" alt="Calcetines Deportivos">
-                <h3>Calcetines Deportivos</h3>
-                <p>Precio: $4.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-        </div>
+        <div class="productos-grid" id="homeProductos"></div>
     </section>
-
     <footer>
         ©NextMove | Contáctanos: NextMove@gmail.com | WhatsApp: +56956432921
     </footer>
 
+  <script>
+    (function(){
+      try {
+        var s = JSON.parse(localStorage.getItem('session'));
+        var link = document.getElementById('adminLink');
+        if (s && s.role === 'Administrador' && link) { link.style.display = 'inline-block'; }
+      } catch(e) {}
+    })();
+  </script>
+  <script>
+    (function(){
+      function formatoCLP(v){ try{ return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP'}).format(v);}catch(e){return '$'+v;}}
+      var key='productosData';
+      
+      // Verificar si existen datos, si no, inicializar
+      var list = JSON.parse(localStorage.getItem(key)) || [];
+      
+      // Solo inicializar si no hay datos
+      if (!list.length) {
+        list = [
+        { codigo:'P-1', nombre:'Zapatos de Fútbol', precio:49990, imagen:'img/zapatos.jpg', descripcion:'', stock: 10, categoria: 'deportes'},
+        { codigo:'P-2', nombre:'Polerón Deportivo', precio:19990, imagen:'img/poleron.webp', descripcion:'', stock: 15, categoria: 'indumentaria'},
+        { codigo:'P-3', nombre:'Shorts Deportivo', precio:14990, imagen:'img/shorts.avif', descripcion:'', stock: 20, categoria: 'indumentaria'},
+        { codigo:'P-4', nombre:'Calcetines Deportivos', precio:4990, imagen:'img/calcetines.webp', descripcion:'', stock: 50, categoria: 'accesorios'}
+        ];
+        localStorage.setItem(key, JSON.stringify(list));
+      }
+      var cont = document.getElementById('homeProductos');
+      if(cont){
+        cont.innerHTML = list.slice(0,4).map(function(p){
+          return '<div class="producto-card">\
+            <img src="'+(p.imagen||'img/Next.png')+'" alt="'+p.nombre+'">\
+            <h3>'+p.nombre+'</h3>\
+            <p>Precio: '+formatoCLP(p.precio)+'</p>\
+            <button class="btn-detalle" data-code="'+p.codigo+'">Ver Detalle</button>\
+          </div>';
+        }).join('');
+        cont.addEventListener('click', function(e){
+          var code = e.target && e.target.dataset && e.target.dataset.code;
+          if(!code) return;
+          var prod = list.find(function(x){return x.codigo===code;});
+          if(!prod) return;
+          var detalle = { nombre: prod.nombre, precio: prod.precio, img: prod.imagen, detalle: prod.descripcion };
+          localStorage.setItem('detalleProducto', JSON.stringify(detalle));
+          window.location.href = 'detalle.html';
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

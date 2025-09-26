@@ -477,33 +477,3 @@ footer {
     margin-top: 2rem;
 }
 
-
-
-.productos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 2rem;
-}
-
-.producto-card, .detalle-container {
-  background: #f8f8f8;
-  padding: 1rem;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.producto-card img, .detalle-container img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-.producto-card button, .detalle-container button {
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #007bff;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}

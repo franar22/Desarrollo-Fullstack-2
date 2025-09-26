@@ -14,14 +14,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        
-        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        // Admin hardcode
+        if (email.toLowerCase() === 'admin@duocuc.cl' && password === 'admin') {
+            const session = { email, nombre: 'Admin', apellido: '', role: 'Administrador' };
+            localStorage.setItem('session', JSON.stringify(session));
+            mostrarExito('Bienvenido, Administrador');
+            setTimeout(() => { window.location.href = 'admin.html'; }, 600);
+            form.reset();
+            return;
+        }
 
-        
-        const usuario = usuarios.find(u => u.email === email && u.password === password);
+        // Usuarios registrados desde registro y desde admin (con roles)
+        const regUsers = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const adminUsers = JSON.parse(localStorage.getItem('usuariosAdmin')) || [];
+        // Unificar por email. Prioriza contraseña exacta y respeta rol si existe en admin
+        const merged = (() => {
+            const map = new Map();
+            regUsers.forEach(u => map.set((u.email||'').toLowerCase(), { nombre:u.nombre, apellido:u.apellido||'', email:u.email, password:u.password, role:'Cliente' }));
+            adminUsers.forEach(u => map.set((u.correo||'').toLowerCase(), { nombre:u.nombre, apellido:u.apellidos||'', email:u.correo, password:u.password||'', role:u.tipo||'Cliente' }));
+            return Array.from(map.values());
+        })();
+        const usuario = merged.find(u => u.email && u.email.toLowerCase() === email.toLowerCase() && (u.password||'') === password);
 
         if (usuario) {
+            const session = { email: usuario.email, nombre: usuario.nombre, apellido: usuario.apellido, role: usuario.role || 'Cliente' };
+            localStorage.setItem('session', JSON.stringify(session));
             mostrarExito(`Bienvenido, ${usuario.nombre} ${usuario.apellido}`);
+            setTimeout(() => { window.location.href = session.role === 'Administrador' ? 'admin.html' : 'index.html'; }, 600);
             form.reset();
         } else {
             mostrarError("Correo o contraseña incorrectos");
