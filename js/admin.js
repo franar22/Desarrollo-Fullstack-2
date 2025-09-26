@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		localStorage.setItem(PRODUCTS_KEY, JSON.stringify(seed));
 	}
 
-	// Navigation
 	function setActive(view) {
 		menuLinks.forEach(a => a.classList.toggle('active', a.dataset.view === view));
 		Object.entries(views).forEach(([k, el]) => {
@@ -66,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.location.href = 'login.html';
 	});
 
-	
 	const productsTableBody = document.querySelector('#productsTable tbody');
 	const productSearch = document.getElementById('productSearch');
 	const btnNewProduct = document.getElementById('btnNewProduct');
@@ -185,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			const idx = list.findIndex(p => p.codigo === editingCode);
 			if (idx !== -1) list[idx] = v.data;
 		} else {
-			// Prevent duplicate code
 			if (list.some(p => p.codigo.toLowerCase() === v.data.codigo.toLowerCase())) {
 				alert('Código ya existe.');
 				return;
@@ -197,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		renderProducts();
 	});
 
-	// Users CRUD
 	const usersTableBody = document.querySelector('#usersTable tbody');
 	const userSearch = document.getElementById('userSearch');
 	const btnNewUser = document.getElementById('btnNewUser');
@@ -211,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function getUsers() { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
     function saveUsers(list) { localStorage.setItem(USERS_KEY, JSON.stringify(list)); }
     function upsertPublicUsers(syncUser){
-        // Mantener una lista pública para login de clientes y personal
         const pub = JSON.parse(localStorage.getItem(PUBLIC_USERS_KEY)) || [];
         const idx = pub.findIndex(u => u.email && u.email.toLowerCase() === (syncUser.correo||'').toLowerCase());
         const record = {
@@ -300,9 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	function validarRun(run) {
-		// Validar largo y caracteres (sin puntos ni guion)
 		if (!/^[0-9kK]{7,9}$/.test(run)) return false;
-		// Validación de dígito verificador chileno
 		const cuerpo = run.slice(0, -1);
 		let dv = run.slice(-1).toUpperCase();
 		let suma = 0; let multiplicador = 2;
@@ -354,14 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			list.push(v.data);
 		}
 		saveUsers(list);
-        // sincronizar con la lista pública para login
         upsertPublicUsers(v.data);
 		userFormCard.classList.add('hidden');
 		renderUsers();
 	});
-
-	// Initial renders when switching to each view
-	// (leave dashboard by default)
 });
 
 
