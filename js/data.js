@@ -1,4 +1,4 @@
-// Categorías y regiones/comunas de apoyo para formularios
+
 window.CATEGORIAS = [
 	{ id: 'deportes', nombre: 'Deportes' },
 	{ id: 'indumentaria', nombre: 'Indumentaria' },

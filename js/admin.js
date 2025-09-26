@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-	// Auth guard: only admin user can access
+	
 	const session = JSON.parse(localStorage.getItem('session')) || null;
 	if (!session || session.role !== 'Administrador') {
 		alert('Acceso restringido. Inicie sesión como administrador.');
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		return;
 	}
 
-	// Elements
+	
 	const menuLinks = document.querySelectorAll('.admin-menu a[data-view]');
 	const views = {
 		dashboard: document.getElementById('view-dashboard'),
@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const viewTitle = document.getElementById('viewTitle');
 	const logoutLink = document.getElementById('logoutLink');
 
-	// Data sources in localStorage
+	
 	const PRODUCTS_KEY = 'productosData';
     const USERS_KEY = 'usuariosAdmin';
     const PUBLIC_USERS_KEY = 'usuarios';
 	const CATEGORIES_KEY = 'categoriasData';
 
-	// Seed categories if missing
+	
 	if (!localStorage.getItem(CATEGORIES_KEY)) {
 		localStorage.setItem(CATEGORIES_KEY, JSON.stringify(window.CATEGORIAS || [
 			{ id: 'deportes', nombre: 'Deportes' },
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		]));
 	}
 
-	// Seed products from public catalog if missing
+	
 	if (!localStorage.getItem(PRODUCTS_KEY)) {
 		const seed = [
 			{ codigo:'P-1', nombre:'Zapatos de Fútbol', descripcion:'Zapatos de fútbol con buena tracción.', precio:49990, stock:10, stockCritico:2, categoria:'deportes', imagen:'img/zapatos.jpg' },
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.location.href = 'login.html';
 	});
 
-	// Products CRUD
+	
 	const productsTableBody = document.querySelector('#productsTable tbody');
 	const productSearch = document.getElementById('productSearch');
 	const btnNewProduct = document.getElementById('btnNewProduct');

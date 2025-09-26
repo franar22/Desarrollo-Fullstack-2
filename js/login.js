@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Admin hardcode
+        
         if (email.toLowerCase() === 'admin@duocuc.cl' && password === 'admin') {
             const session = { email, nombre: 'Admin', apellido: '', role: 'Administrador' };
             localStorage.setItem('session', JSON.stringify(session));
@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Usuarios registrados desde registro y desde admin (con roles)
+       
         const regUsers = JSON.parse(localStorage.getItem('usuarios')) || [];
         const adminUsers = JSON.parse(localStorage.getItem('usuariosAdmin')) || [];
-        // Unificar por email. Prioriza contraseña exacta y respeta rol si existe en admin
+        
         const merged = (() => {
             const map = new Map();
             regUsers.forEach(u => map.set((u.email||'').toLowerCase(), { nombre:u.nombre, apellido:u.apellido||'', email:u.email, password:u.password, role:'Cliente' }));

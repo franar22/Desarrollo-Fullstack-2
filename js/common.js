@@ -1,4 +1,4 @@
-// Shared utilities for all pages
+
 (() => {
   try {
     const sessionRaw = localStorage.getItem('session');
@@ -8,7 +8,7 @@
       adminLink.style.display = 'inline-block';
     }
   } catch (error) {
-    // swallow
+    
   }
 })();
 
