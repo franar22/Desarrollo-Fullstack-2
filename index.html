@@ -41,34 +41,6 @@
     <section class="productos">
         <h2>Productos Más Vendidos</h2>
         <div class="productos-grid" id="homeProductos"></div>
-            <div class="producto-card">
-                <img src="img/zapatos.jpg" alt="Zapatos de fútbol">
-                <h3>Zapatos de Fútbol</h3>
-                <p>Precio: $49.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos </button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/poleron.webp" alt="Poleron Deportivo">
-                <h3>Polero Deportivo</h3>
-                <p>Precio: $19.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/shorts.avif" alt="Shorts Deportivo">
-                <h3>Shorts Deportivo</h3>
-                <p>Precio: $14.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-
-            <div class="producto-card">
-                <img src="img/calcetines.webp" alt="Calcetines Deportivos">
-                <h3>Calcetines Deportivos</h3>
-                <p>Precio: $4.990</p>
-                <button onclick="location.href='productos.html'">Descubre mas productos</button>
-            </div>
-        </div>
     </section>
     <footer>
         ©NextMove | Contáctanos: NextMove@gmail.com | WhatsApp: +56956432921
@@ -87,14 +59,17 @@
     (function(){
       function formatoCLP(v){ try{ return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP'}).format(v);}catch(e){return '$'+v;}}
       var key='productosData';
-      var list=[]; try{ list = JSON.parse(localStorage.getItem(key))||[]; }catch(e){}
-      if(!list.length){
-        // Forzar seeding similar al admin si vacío
-        list=[
-          { codigo:'P-1', nombre:'Zapatos de Fútbol', precio:49990, imagen:'img/zapatos.jpg', descripcion:''},
-          { codigo:'P-2', nombre:'Polerón Deportivo', precio:19990, imagen:'img/poleron.webp', descripcion:''},
-          { codigo:'P-3', nombre:'Shorts Deportivo', precio:14990, imagen:'img/shorts.avif', descripcion:''},
-          { codigo:'P-4', nombre:'Calcetines Deportivos', precio:4990, imagen:'img/calcetines.webp', descripcion:''}
+      
+      // Verificar si existen datos, si no, inicializar
+      var list = JSON.parse(localStorage.getItem(key)) || [];
+      
+      // Solo inicializar si no hay datos
+      if (!list.length) {
+        list = [
+        { codigo:'P-1', nombre:'Zapatos de Fútbol', precio:49990, imagen:'img/zapatos.jpg', descripcion:'', stock: 10, categoria: 'deportes'},
+        { codigo:'P-2', nombre:'Polerón Deportivo', precio:19990, imagen:'img/poleron.webp', descripcion:'', stock: 15, categoria: 'indumentaria'},
+        { codigo:'P-3', nombre:'Shorts Deportivo', precio:14990, imagen:'img/shorts.avif', descripcion:'', stock: 20, categoria: 'indumentaria'},
+        { codigo:'P-4', nombre:'Calcetines Deportivos', precio:4990, imagen:'img/calcetines.webp', descripcion:'', stock: 50, categoria: 'accesorios'}
         ];
         localStorage.setItem(key, JSON.stringify(list));
       }
