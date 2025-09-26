@@ -57,7 +57,7 @@
     try {
       localStorage.setItem('detalleProducto', JSON.stringify(detail));
     } catch (error) {
-      // ignore write errors
+      // 
     }
     window.location.href = 'detalle.html';
   });
